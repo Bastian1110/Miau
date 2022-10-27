@@ -1,0 +1,58 @@
+version: '3.7'
+
+services:
+  authservice:
+    build: ./AuthService
+    ports:
+      - 8000:6969
+    environment:
+      PORT : 6969
+      DATABASE_SERVICE : http://databaseservice:6969
+    depends_on:
+      - databaseservice
+
+  databaseservice:
+    build: ./DatabaseService
+    ports:
+      - 8001:6969
+    environment:
+      PORT : 6969
+      AUTH_SERVICE : http://authservice:6969
+      MONGODB_CONNSTRING : "mongodb://${DB_USER}:${DB_PSWD}@mongodb/alerta_atizapan"
+    depends_on:
+      - mongodb
+
+  notificationservice:
+    build: ./NotificationService
+    ports:
+      - 8002:6969
+    environment:
+      PORT : 6969
+      AUTH_SERVICE : http://authservice:6969
+      DATABASE_SERVICE : http://databaseservice:6969
+    depends_on:
+      - authservice
+
+  incidentservice:
+    build: ./IncidentService
+    ports:
+      - 8003:6969
+    environment:
+      PORT : 6969
+      DATABASE_SERVICE : http://databaseservice:6969
+    depends_on:
+      - databaseservice
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME : ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD : ${DB_PSWD}
+      MONGO_INITDB_DATABASE : alerta_atizapan
+    ports:
+      - 27017-27019:27017-27019
+    volumes:
+      - ./data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro

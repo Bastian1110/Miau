@@ -1,0 +1,56 @@
+syntax = "proto2";
+
+package mx.itesm.incidentesatizapan;
+
+option java_multiple_files = true;
+
+service IncidentService {
+  rpc GetIncidents(IncidentServiceRpcRequest) returns (Incidents) {}
+}
+
+// The IncidentServiceRpcRequest defines the parameters to make a request to the incident service.
+message IncidentServiceRpcRequest {
+  // The location for which the request is being made.
+  optional GeoCoordinate location = 1;
+  // Defines a radius in meters to get information from, with the location as the center.
+  // Leave empty to get all incidents.
+  optional double radius = 2;
+}
+
+message GeoCoordinate {
+  optional double latitude = 1;
+  optional double longitude = 2;
+}
+
+// An Incident represents a real-life incident that may happen in a geographical location.
+message Incident {
+  // The coordinates that represent the location of the incident.
+  optional GeoCoordinate coordinate = 1;
+
+  // The name of a street, neighbourhood or place which will be used as a reference for
+  // the incident.
+  optional string reference_location = 2;
+
+  // A text message containing details about the incident.
+  optional string description = 3;
+
+  enum IncidentType {
+    FIRE = 0;
+    FLOODING = 1;
+    GAS_LEAK = 2;
+    WATER_LEAK = 3;
+    CAR_ACCIDENT = 4;
+    OTHER = 5;
+  }
+
+  // The type of incident.
+  optional IncidentType incident_type = 4;
+
+  // A radius measured in meters indicating the area that people should avoid.
+  optional double risk_radius = 5;
+}
+
+// Incidents contains a list of Incident protos.
+message Incidents {
+  repeated Incident incident = 1;
+}

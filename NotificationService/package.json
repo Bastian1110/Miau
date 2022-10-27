@@ -1,0 +1,29 @@
+{
+  "name": "notificationservice",
+  "version": "1.0.0",
+  "description": "This is the microservice that handles the interaction with Firebase Cloud Messaging",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "npx nodemon -x ts-node -e ts src ",
+    "build": "tsc --build",
+    "serve": "node dist/index.js"
+  },
+  "author": "Sebastian Mora",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.14",
+    "nodemon": "^2.0.20",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "firebase-admin": "^11.0.1"
+  }
+}

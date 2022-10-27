@@ -1,0 +1,22 @@
+{
+    "name": "incidentservice",
+    "version": "1.0.0",
+    "description": "The Incident Service connects with the database and handles requests for incidents in a particular location.",
+    "main": "index.js",
+    "scripts": {
+        "dev" : "nodemon src/index.js",
+        "serve": "node src/index.js"
+    },
+    "author": "David Damian",
+    "license": "ISC",
+    "dependencies": {
+        "@grpc/grpc-js": "^1.1.0",
+        "@grpc/proto-loader": "^0.5.0",
+        "async": "^1.5.2",
+        "axios": "^1.1.0",
+        "google-protobuf": "^3.0.0",
+        "lodash": "^4.6.1",
+        "minimist": "^1.2.0",
+        "nodemon": "^2.0.20"
+    }
+}
